@@ -220,7 +220,7 @@ class _ItemTagsState extends State<ItemTags> {
     if (_dataList.showDuplicate) color = widget.colorShowDuplicate;
 
     return Material(
-      color: Colors.red,
+      color: color,
       borderRadius:
           widget.borderRadius ?? BorderRadius.circular(_initBorderRadius),
       elevation: widget.elevation,
@@ -242,6 +242,7 @@ class _ItemTagsState extends State<ItemTags> {
             child: _combine),
         onTap: widget.pressEnabled
             ? () {
+                print('test');
                 if (widget.singleItem) {
                   _singleItem(_dataListInherited, _dataList);
                   _dataList.active = true;
