@@ -220,7 +220,7 @@ class _ItemTagsState extends State<ItemTags> {
     if (_dataList.showDuplicate) color = widget.colorShowDuplicate;
 
     return Material(
-      color: color,
+      color: Colors.red,
       borderRadius:
           widget.borderRadius ?? BorderRadius.circular(_initBorderRadius),
       elevation: widget.elevation,
