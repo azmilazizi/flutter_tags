@@ -42,7 +42,7 @@ class ItemTags extends StatefulWidget {
       this.singleItem = false,
       this.textOverflow = TextOverflow.fade,
       this.textColor = Colors.black,
-      this.textActiveColor = Colors.white,
+      this.textActiveColor = Colors.red,
       this.color = Colors.white,
       this.activeColor = Colors.blueGrey,
       this.highlightColor,
@@ -242,7 +242,6 @@ class _ItemTagsState extends State<ItemTags> {
             child: _combine),
         onTap: widget.pressEnabled
             ? () {
-                print('test');
                 if (widget.singleItem) {
                   _singleItem(_dataListInherited, _dataList);
                   _dataList.active = true;
