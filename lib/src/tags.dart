@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 
 import '../flutter_tags.dart';
 import 'util/custom_wrap.dart';
-import 'package:flutter_tags/src/suggestions_textfield.dart';
+// import 'package:flutter_tags/src/suggestions_textfield.dart'
+//     as suggestionTextField;
 
 ///ItemBuilder
 typedef Widget ItemBuilder(int index);

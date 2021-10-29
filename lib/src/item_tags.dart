@@ -22,38 +22,43 @@ enum ItemTagsCombine {
 }
 
 class ItemTags extends StatefulWidget {
-  ItemTags(
-      {@required this.index,
-      @required this.title,
-      this.textScaleFactor,
-      this.active = true,
-      this.pressEnabled = true,
-      this.customData,
-      this.textStyle = const TextStyle(fontSize: 14),
-      this.alignment = MainAxisAlignment.center,
-      this.combine = ItemTagsCombine.imageOrIconOrText,
-      this.icon,
-      this.image,
-      this.removeButton,
-      this.borderRadius,
-      this.border,
-      this.padding = const EdgeInsets.symmetric(horizontal: 7, vertical: 5),
-      this.elevation = 5,
-      this.singleItem = false,
-      this.textOverflow = TextOverflow.fade,
-      this.textColor = Colors.black,
-      this.textActiveColor = Colors.red,
-      this.color = Colors.white,
-      this.activeColor = Colors.blueGrey,
-      this.highlightColor,
-      this.splashColor,
-      this.colorShowDuplicate = Colors.red,
-      this.onPressed,
-      this.onLongPressed,
-      Key key})
-      : assert(index != null),
+  ItemTags({
+    @required this.index,
+    @required this.title,
+    this.textScaleFactor,
+    this.active = true,
+    this.pressEnabled = true,
+    this.customData,
+    this.textStyle = const TextStyle(fontSize: 14),
+    this.alignment = MainAxisAlignment.center,
+    this.combine = ItemTagsCombine.imageOrIconOrText,
+    this.icon,
+    this.image,
+    this.removeButton,
+    this.borderRadius,
+    this.border,
+    this.padding = const EdgeInsets.symmetric(horizontal: 7, vertical: 5),
+    this.elevation = 5,
+    this.singleItem = false,
+    this.textOverflow = TextOverflow.fade,
+    this.textColor = Colors.black,
+    this.textActiveColor = Colors.white,
+    this.color = Colors.white,
+    this.activeColor = Colors.blueGrey,
+    this.highlightColor,
+    this.splashColor,
+    this.colorShowDuplicate = Colors.red,
+    this.onPressed,
+    this.onLongPressed,
+    Key key,
+    this.width,
+    this.defaultState = false,
+  })  : assert(index != null),
         assert(title != null),
         super(key: key);
+
+  /// Added height attribute of Tags
+  final double width;
 
   /// Id of [ItemTags] - required
   final int index;
@@ -66,6 +71,8 @@ class ItemTags extends StatefulWidget {
 
   /// Initial bool value
   final bool active;
+
+  final bool defaultState;
 
   /// Initial bool value
   final bool pressEnabled;
@@ -182,7 +189,7 @@ class _ItemTagsState extends State<ItemTags> {
       _dataListInherited.list[widget.index] = DataList(
           title: widget.title,
           index: widget.index,
-          active: widget.singleItem ? false : widget.active,
+          active: widget.singleItem ? widget.defaultState : widget.active,
           customData: widget.customData);
     }
 
@@ -215,9 +222,25 @@ class _ItemTagsState extends State<ItemTags> {
 
     final double fontSize = widget.textStyle.fontSize;
 
-    Color color = _dataList.active ? widget.activeColor : widget.color;
+    Color color = _dataList.active ? widget.activeColor : Colors.transparent;
+
+    LinearGradient gradient = _dataList.active
+        ? LinearGradient(
+            colors: [
+              Color(0xFF6199FE),
+              Color(0xFFBA00FF),
+            ],
+            begin: Alignment.bottomLeft,
+            end: Alignment.topRight,
+          )
+        : LinearGradient(colors: [Colors.transparent, Colors.transparent]);
 
     if (_dataList.showDuplicate) color = widget.colorShowDuplicate;
+
+    // Color borderColor = _dataList.active ? Color(0xFF20202D) : widget.activeColor;
+    Border border = _dataList.active
+        ? Border.all(color: Colors.transparent, width: 0.5)
+        : widget.border;
 
     return Material(
       color: color,
@@ -233,9 +256,11 @@ class _ItemTagsState extends State<ItemTags> {
         splashColor:
             widget.pressEnabled ? widget.splashColor : Colors.transparent,
         child: Container(
+            width: widget.width ?? widget.width,
             decoration: BoxDecoration(
-                border: widget.border ??
-                    Border.all(color: widget.activeColor, width: 0.5),
+                gradient: gradient,
+                border:
+                    border ?? Border.all(color: widget.activeColor, width: 0.5),
                 borderRadius: widget.borderRadius ??
                     BorderRadius.circular(_initBorderRadius)),
             padding: widget.padding * (fontSize / 14),
