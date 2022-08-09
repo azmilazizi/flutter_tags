@@ -79,19 +79,14 @@ class CustomWrap extends MultiChildRenderObjectWidget {
     properties.add(EnumProperty<WrapAlignment>('runAlignment', runAlignment));
     properties.add(DoubleProperty('runSpacing', runSpacing));
     properties.add(DoubleProperty('crossAxisAlignment', runSpacing));
-    properties.add(EnumProperty<TextDirection>('textDirection', textDirection,
-        defaultValue: null));
-    properties.add(EnumProperty<VerticalDirection>(
-        'verticalDirection', verticalDirection,
-        defaultValue: VerticalDirection.down));
+    properties.add(EnumProperty<TextDirection>('textDirection', textDirection, defaultValue: null));
+    properties.add(EnumProperty<VerticalDirection>('verticalDirection', verticalDirection, defaultValue: VerticalDirection.down));
   }
 }
 
 /// Displays its children in multiple horizontal or vertical runs.
 class CustomRenderWrap extends RenderBox
-    with
-        ContainerRenderObjectMixin<RenderBox, WrapParentData>,
-        RenderBoxContainerDefaultsMixin<RenderBox, WrapParentData> {
+    with ContainerRenderObjectMixin<RenderBox, WrapParentData>, RenderBoxContainerDefaultsMixin<RenderBox, WrapParentData> {
   CustomRenderWrap({
     List<RenderBox> children,
     int column,
@@ -220,8 +215,7 @@ class CustomRenderWrap extends RenderBox
       // i.e. there's more than one child
       switch (direction) {
         case Axis.horizontal:
-          assert(textDirection != null,
-              'Horizontal $runtimeType with multiple children has a null textDirection, so the layout order is undefined.');
+          assert(textDirection != null, 'Horizontal $runtimeType with multiple children has a null textDirection, so the layout order is undefined.');
           break;
         case Axis.vertical:
           assert(verticalDirection != null,
@@ -241,8 +235,7 @@ class CustomRenderWrap extends RenderBox
           break;
       }
     }
-    if (runAlignment == WrapAlignment.start ||
-        runAlignment == WrapAlignment.end) {
+    if (runAlignment == WrapAlignment.start || runAlignment == WrapAlignment.end) {
       switch (direction) {
         case Axis.horizontal:
           assert(verticalDirection != null,
@@ -254,8 +247,7 @@ class CustomRenderWrap extends RenderBox
           break;
       }
     }
-    if (crossAxisAlignment == WrapCrossAlignment.start ||
-        crossAxisAlignment == WrapCrossAlignment.end) {
+    if (crossAxisAlignment == WrapCrossAlignment.start || crossAxisAlignment == WrapCrossAlignment.end) {
       switch (direction) {
         case Axis.horizontal:
           assert(verticalDirection != null,
@@ -272,8 +264,7 @@ class CustomRenderWrap extends RenderBox
 
   @override
   void setupParentData(RenderBox child) {
-    if (child.parentData is! WrapParentData)
-      child.parentData = WrapParentData();
+    if (child.parentData is! WrapParentData) child.parentData = WrapParentData();
   }
 
   double _computeIntrinsicHeightForWidth(double width) {
@@ -377,8 +368,7 @@ class CustomRenderWrap extends RenderBox
         double height = 0.0;
         RenderBox child = firstChild;
         while (child != null) {
-          height =
-              math.max(height, child.getMinIntrinsicHeight(double.infinity));
+          height = math.max(height, child.getMinIntrinsicHeight(double.infinity));
           child = childAfter(child);
         }
         return height;
@@ -438,8 +428,7 @@ class CustomRenderWrap extends RenderBox
     return Offset.zero;
   }
 
-  double _getChildCrossAxisOffset(bool flipCrossAxis, double runCrossAxisExtent,
-      double childCrossAxisExtent) {
+  double _getChildCrossAxisOffset(bool flipCrossAxis, double runCrossAxisExtent, double childCrossAxisExtent) {
     final double freeSpace = runCrossAxisExtent - childCrossAxisExtent;
     switch (crossAxisAlignment) {
       case WrapCrossAlignment.start:
@@ -497,16 +486,13 @@ class CustomRenderWrap extends RenderBox
       child.layout(childConstraints, parentUsesSize: true);
       final double childMainAxisExtent = _getMainAxisExtent(child);
       final double childCrossAxisExtent = _getCrossAxisExtent(child);
-      if ((childCount > 0 &&
-              runMainAxisExtent + spacing + childMainAxisExtent >
-                  mainAxisLimit) ||
+      if ((childCount > 0 && runMainAxisExtent + spacing + childMainAxisExtent > mainAxisLimit) ||
           (_column != null && _column != 0 && cnt == _column)) {
         cnt = 0;
         mainAxisExtent = math.max(mainAxisExtent, runMainAxisExtent);
         crossAxisExtent += runCrossAxisExtent;
         if (runMetrics.isNotEmpty) crossAxisExtent += runSpacing;
-        runMetrics.add(
-            _RunMetrics(runMainAxisExtent, runCrossAxisExtent, childCount));
+        runMetrics.add(_RunMetrics(runMainAxisExtent, runCrossAxisExtent, childCount));
         runMainAxisExtent = 0.0;
         runCrossAxisExtent = 0.0;
         childCount = 0;
@@ -524,8 +510,7 @@ class CustomRenderWrap extends RenderBox
       mainAxisExtent = math.max(mainAxisExtent, runMainAxisExtent);
       crossAxisExtent += runCrossAxisExtent;
       if (runMetrics.isNotEmpty) crossAxisExtent += runSpacing;
-      runMetrics
-          .add(_RunMetrics(runMainAxisExtent, runCrossAxisExtent, childCount));
+      runMetrics.add(_RunMetrics(runMainAxisExtent, runCrossAxisExtent, childCount));
     }
 
     final int runCount = runMetrics.length;
@@ -547,11 +532,9 @@ class CustomRenderWrap extends RenderBox
         break;
     }
 
-    _hasVisualOverflow = containerMainAxisExtent < mainAxisExtent ||
-        containerCrossAxisExtent < crossAxisExtent;
+    _hasVisualOverflow = containerMainAxisExtent < mainAxisExtent || containerCrossAxisExtent < crossAxisExtent;
 
-    final double crossAxisFreeSpace =
-        math.max(0.0, containerCrossAxisExtent - crossAxisExtent);
+    final double crossAxisFreeSpace = math.max(0.0, containerCrossAxisExtent - crossAxisExtent);
     double runLeadingSpace = 0.0;
     double runBetweenSpace = 0.0;
     switch (runAlignment) {
@@ -564,8 +547,7 @@ class CustomRenderWrap extends RenderBox
         runLeadingSpace = crossAxisFreeSpace / 2.0;
         break;
       case WrapAlignment.spaceBetween:
-        runBetweenSpace =
-            runCount > 1 ? crossAxisFreeSpace / (runCount - 1) : 0.0;
+        runBetweenSpace = runCount > 1 ? crossAxisFreeSpace / (runCount - 1) : 0.0;
         break;
       case WrapAlignment.spaceAround:
         runBetweenSpace = crossAxisFreeSpace / runCount;
@@ -578,9 +560,7 @@ class CustomRenderWrap extends RenderBox
     }
 
     runBetweenSpace += runSpacing;
-    double crossAxisOffset = flipCrossAxis
-        ? containerCrossAxisExtent - runLeadingSpace
-        : runLeadingSpace;
+    double crossAxisOffset = flipCrossAxis ? containerCrossAxisExtent - runLeadingSpace : runLeadingSpace;
 
     child = firstChild;
     for (int i = 0; i < runCount; ++i) {
@@ -589,8 +569,7 @@ class CustomRenderWrap extends RenderBox
       final double runCrossAxisExtent = metrics.crossAxisExtent;
       final int childCount = metrics.childCount;
 
-      final double mainAxisFreeSpace =
-          math.max(0.0, containerMainAxisExtent - runMainAxisExtent);
+      final double mainAxisFreeSpace = math.max(0.0, containerMainAxisExtent - runMainAxisExtent);
       double childLeadingSpace = 0.0;
       double childBetweenSpace = 0.0;
 
@@ -607,8 +586,7 @@ class CustomRenderWrap extends RenderBox
           childLeadingSpace = mainAxisFreeSpace / 2.0;
           break;
         case WrapAlignment.spaceBetween:
-          childBetweenSpace =
-              childCount > 1 ? mainAxisFreeSpace / (childCount - 1) : 0.0;
+          childBetweenSpace = childCount > 1 ? mainAxisFreeSpace / (childCount - 1) : 0.0;
           break;
         case WrapAlignment.spaceAround:
           childBetweenSpace = mainAxisFreeSpace / childCount;
@@ -621,9 +599,7 @@ class CustomRenderWrap extends RenderBox
       }
 
       childBetweenSpace += spacing;
-      double childMainPosition = flipMainAxis
-          ? containerMainAxisExtent - childLeadingSpace
-          : childLeadingSpace;
+      double childMainPosition = flipMainAxis ? containerMainAxisExtent - childLeadingSpace : childLeadingSpace;
 
       if (flipCrossAxis) crossAxisOffset -= runCrossAxisExtent;
 
@@ -632,11 +608,9 @@ class CustomRenderWrap extends RenderBox
         if (childParentData._runIndex != i) break;
         final double childMainAxisExtent = _getMainAxisExtent(child);
         final double childCrossAxisExtent = _getCrossAxisExtent(child);
-        final double childCrossAxisOffset = _getChildCrossAxisOffset(
-            flipCrossAxis, runCrossAxisExtent, childCrossAxisExtent);
+        final double childCrossAxisOffset = _getChildCrossAxisOffset(flipCrossAxis, runCrossAxisExtent, childCrossAxisExtent);
         if (flipMainAxis) childMainPosition -= childMainAxisExtent;
-        childParentData.offset = _getOffset(
-            childMainPosition, crossAxisOffset + childCrossAxisOffset);
+        childParentData.offset = _getOffset(childMainPosition, crossAxisOffset + childCrossAxisOffset);
         if (flipMainAxis)
           childMainPosition -= childBetweenSpace;
         else
@@ -661,8 +635,7 @@ class CustomRenderWrap extends RenderBox
     // TODO(ianh): move the debug flex overflow paint logic somewhere common so
     // it can be reused here
     if (_hasVisualOverflow)
-      context.pushClipRect(
-          needsCompositing, offset, Offset.zero & size, defaultPaint);
+      context.pushClipRect(needsCompositing, offset, Offset.zero & size, defaultPaint);
     else
       defaultPaint(context, offset);
   }
@@ -676,11 +649,8 @@ class CustomRenderWrap extends RenderBox
     properties.add(EnumProperty<WrapAlignment>('runAlignment', runAlignment));
     properties.add(DoubleProperty('runSpacing', runSpacing));
     properties.add(DoubleProperty('crossAxisAlignment', runSpacing));
-    properties.add(EnumProperty<TextDirection>('textDirection', textDirection,
-        defaultValue: null));
-    properties.add(EnumProperty<VerticalDirection>(
-        'verticalDirection', verticalDirection,
-        defaultValue: VerticalDirection.down));
+    properties.add(EnumProperty<TextDirection>('textDirection', textDirection, defaultValue: null));
+    properties.add(EnumProperty<VerticalDirection>('verticalDirection', verticalDirection, defaultValue: VerticalDirection.down));
   }
 }
 

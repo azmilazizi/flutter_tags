@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_tags/src/tags.dart';
 
 /// Used by [ItemTags.onPressed].
@@ -12,14 +11,7 @@ typedef OnLongPressedCallback = void Function(Item i);
 typedef OnRemovedCallback = bool Function();
 
 /// combines icon text or image
-enum ItemTagsCombine {
-  onlyText,
-  onlyIcon,
-  onlyImage,
-  imageOrIconOrText,
-  withTextBefore,
-  withTextAfter
-}
+enum ItemTagsCombine { onlyText, onlyIcon, onlyImage, imageOrIconOrText, withTextBefore, withTextAfter }
 
 class ItemTags extends StatefulWidget {
   ItemTags({
@@ -158,8 +150,7 @@ class _ItemTagsState extends State<ItemTags> {
     _dataListInherited = DataListInherited.of(context);
 
     // set List length
-    if (_dataListInherited.list.length < _dataListInherited.itemCount)
-      _dataListInherited.list.length = _dataListInherited.itemCount;
+    if (_dataListInherited.list.length < _dataListInherited.itemCount) _dataListInherited.list.length = _dataListInherited.itemCount;
 
     if (_dataListInherited.list.length > (widget.index + 1) &&
         _dataListInherited.list.elementAt(widget.index) != null &&
@@ -168,36 +159,24 @@ class _ItemTagsState extends State<ItemTags> {
       _dataListInherited.list.removeAt(widget.index);
 
       // when all item list changed in data source
-      if (_dataListInherited.list.elementAt(widget.index) != null &&
-          _dataListInherited.list.elementAt(widget.index).title != widget.title)
-        _dataListInherited.list
-            .removeRange(widget.index, _dataListInherited.list.length);
+      if (_dataListInherited.list.elementAt(widget.index) != null && _dataListInherited.list.elementAt(widget.index).title != widget.title)
+        _dataListInherited.list.removeRange(widget.index, _dataListInherited.list.length);
     }
 
     // add new Item in the List
     if (_dataListInherited.list.length < (widget.index + 1)) {
       //print("add");
-      _dataListInherited.list.insert(
-          widget.index,
-          DataList(
-              title: widget.title,
-              index: widget.index,
-              active: widget.singleItem ? false : widget.active,
-              customData: widget.customData));
+      _dataListInherited.list.insert(widget.index,
+          DataList(title: widget.title, index: widget.index, active: widget.singleItem ? false : widget.active, customData: widget.customData));
     } else if (_dataListInherited.list.elementAt(widget.index) == null) {
       //print("replace");
       _dataListInherited.list[widget.index] = DataList(
-          title: widget.title,
-          index: widget.index,
-          active: widget.singleItem ? widget.defaultState : widget.active,
-          customData: widget.customData);
+          title: widget.title, index: widget.index, active: widget.singleItem ? widget.defaultState : widget.active, customData: widget.customData);
     }
 
     // removes items that have been orphaned
-    if (_dataListInherited.itemCount == widget.index + 1 &&
-        _dataListInherited.list.length > _dataListInherited.itemCount)
-      _dataListInherited.list
-          .removeRange(widget.index + 1, _dataListInherited.list.length);
+    if (_dataListInherited.itemCount == widget.index + 1 && _dataListInherited.list.length > _dataListInherited.itemCount)
+      _dataListInherited.list.removeRange(widget.index + 1, _dataListInherited.list.length);
 
     //print(_dataListInherited.list.length);
 
@@ -238,31 +217,23 @@ class _ItemTagsState extends State<ItemTags> {
     if (_dataList.showDuplicate) color = widget.colorShowDuplicate;
 
     // Color borderColor = _dataList.active ? Color(0xFF20202D) : widget.activeColor;
-    Border border = _dataList.active
-        ? Border.all(color: Colors.transparent, width: 0.5)
-        : widget.border;
+    Border border = _dataList.active ? Border.all(color: Colors.transparent, width: 0.5) : widget.border;
 
     return Material(
       color: color,
-      borderRadius:
-          widget.borderRadius ?? BorderRadius.circular(_initBorderRadius),
+      borderRadius: widget.borderRadius ?? BorderRadius.circular(_initBorderRadius),
       elevation: widget.elevation,
       //shadowColor: _dataList.highlights? Colors.red : Colors.blue,
       child: InkWell(
-        borderRadius:
-            widget.borderRadius ?? BorderRadius.circular(_initBorderRadius),
-        highlightColor:
-            widget.pressEnabled ? widget.highlightColor : Colors.transparent,
-        splashColor:
-            widget.pressEnabled ? widget.splashColor : Colors.transparent,
+        borderRadius: widget.borderRadius ?? BorderRadius.circular(_initBorderRadius),
+        highlightColor: widget.pressEnabled ? widget.highlightColor : Colors.transparent,
+        splashColor: widget.pressEnabled ? widget.splashColor : Colors.transparent,
         child: Container(
             width: widget.width ?? widget.width,
             decoration: BoxDecoration(
                 gradient: gradient,
-                border:
-                    border ?? Border.all(color: widget.activeColor, width: 0.5),
-                borderRadius: widget.borderRadius ??
-                    BorderRadius.circular(_initBorderRadius)),
+                border: border ?? Border.all(color: widget.activeColor, width: 0.5),
+                borderRadius: widget.borderRadius ?? BorderRadius.circular(_initBorderRadius)),
             padding: widget.padding * (fontSize / 14),
             child: _combine),
         onTap: widget.pressEnabled
@@ -274,19 +245,11 @@ class _ItemTagsState extends State<ItemTags> {
                   _dataList.active = !_dataList.active;
 
                 if (widget.onPressed != null)
-                  widget.onPressed(Item(
-                      index: widget.index,
-                      title: _dataList.title,
-                      active: _dataList.active,
-                      customData: widget.customData));
+                  widget.onPressed(Item(index: widget.index, title: _dataList.title, active: _dataList.active, customData: widget.customData));
               }
             : null,
         onLongPress: widget.onLongPressed != null
-            ? () => widget.onLongPressed(Item(
-                index: widget.index,
-                title: _dataList.title,
-                active: _dataList.active,
-                customData: widget.customData))
+            ? () => widget.onLongPressed(Item(index: widget.index, title: _dataList.title, active: _dataList.active, customData: widget.customData))
             : null,
       ),
     );
@@ -294,8 +257,7 @@ class _ItemTagsState extends State<ItemTags> {
 
   Widget get _combine {
     if (widget.image != null)
-      assert((widget.image.image != null && widget.image.child == null) ||
-          (widget.image.child != null && widget.image.image == null));
+      assert((widget.image.image != null && widget.image.child == null) || (widget.image.child != null && widget.image.image == null));
     final Widget text = Text(
       widget.title,
       softWrap: false,
@@ -307,8 +269,7 @@ class _ItemTagsState extends State<ItemTags> {
     final Widget icon = widget.icon != null
         ? Container(
             padding: widget.icon.padding ??
-                (widget.combine == ItemTagsCombine.onlyIcon ||
-                        widget.combine == ItemTagsCombine.imageOrIconOrText
+                (widget.combine == ItemTagsCombine.onlyIcon || widget.combine == ItemTagsCombine.imageOrIconOrText
                     ? null
                     : widget.combine == ItemTagsCombine.withTextAfter
                         ? EdgeInsets.only(right: 5)
@@ -323,23 +284,21 @@ class _ItemTagsState extends State<ItemTags> {
     final Widget image = widget.image != null
         ? Container(
             padding: widget.image.padding ??
-                (widget.combine == ItemTagsCombine.onlyImage ||
-                        widget.combine == ItemTagsCombine.imageOrIconOrText
+                (widget.combine == ItemTagsCombine.onlyImage || widget.combine == ItemTagsCombine.imageOrIconOrText
                     ? null
                     : widget.combine == ItemTagsCombine.withTextAfter
                         ? EdgeInsets.only(right: 5)
                         : EdgeInsets.only(left: 5)),
             child: widget.image.child ??
                 CircleAvatar(
-                  radius:
-                      widget.image.radius * (widget.textStyle.fontSize / 14),
+                  radius: widget.image.radius * (widget.textStyle.fontSize / 14),
                   backgroundColor: Colors.transparent,
                   backgroundImage: widget.image.image,
                 ),
           )
         : text;
 
-    final List list = List();
+    final List list = [];
 
     switch (widget.combine) {
       case ItemTagsCombine.onlyText:
@@ -377,58 +336,41 @@ class _ItemTagsState extends State<ItemTags> {
               child: list[i],
             );
           return Flexible(
-            flex: widget.combine == ItemTagsCombine.withTextAfter ||
-                    list.length == 1
-                ? 1
-                : 0,
+            flex: widget.combine == ItemTagsCombine.withTextAfter || list.length == 1 ? 1 : 0,
             child: list[i],
           );
         }));
 
     if (widget.removeButton != null)
-      return Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
-            Flexible(
-                fit:
-                    _dataListInherited.symmetry ? FlexFit.tight : FlexFit.loose,
-                flex: 2,
-                child: row),
-            Flexible(
-                flex: 0,
-                child: FittedBox(
-                    alignment: Alignment.centerRight,
-                    fit: BoxFit.fill,
-                    child: GestureDetector(
-                      child: Container(
-                        margin: widget.removeButton.margin ??
-                            EdgeInsets.only(left: 5),
-                        padding:
-                            (widget.removeButton.padding ?? EdgeInsets.all(2)) *
-                                (widget.textStyle.fontSize / 14),
-                        decoration: BoxDecoration(
-                          color: widget.removeButton.backgroundColor ??
-                              Colors.black,
-                          borderRadius: widget.removeButton.borderRadius ??
-                              BorderRadius.circular(_initBorderRadius),
+      return Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, mainAxisSize: MainAxisSize.min, children: <Widget>[
+        Flexible(fit: _dataListInherited.symmetry ? FlexFit.tight : FlexFit.loose, flex: 2, child: row),
+        Flexible(
+            flex: 0,
+            child: FittedBox(
+                alignment: Alignment.centerRight,
+                fit: BoxFit.fill,
+                child: GestureDetector(
+                  child: Container(
+                    margin: widget.removeButton.margin ?? EdgeInsets.only(left: 5),
+                    padding: (widget.removeButton.padding ?? EdgeInsets.all(2)) * (widget.textStyle.fontSize / 14),
+                    decoration: BoxDecoration(
+                      color: widget.removeButton.backgroundColor ?? Colors.black,
+                      borderRadius: widget.removeButton.borderRadius ?? BorderRadius.circular(_initBorderRadius),
+                    ),
+                    child: widget.removeButton.padding ??
+                        Icon(
+                          Icons.clear,
+                          color: widget.removeButton.color ?? Colors.white,
+                          size: (widget.removeButton.size ?? 12) * (widget.textStyle.fontSize / 14),
                         ),
-                        child: widget.removeButton.padding ??
-                            Icon(
-                              Icons.clear,
-                              color: widget.removeButton.color ?? Colors.white,
-                              size: (widget.removeButton.size ?? 12) *
-                                  (widget.textStyle.fontSize / 14),
-                            ),
-                      ),
-                      onTap: () {
-                        if (widget.removeButton.onRemoved != null) {
-                          if (widget.removeButton.onRemoved())
-                            _dataListInherited.list.removeAt(widget.index);
-                        }
-                      },
-                    )))
-          ]);
+                  ),
+                  onTap: () {
+                    if (widget.removeButton.onRemoved != null) {
+                      if (widget.removeButton.onRemoved()) _dataListInherited.list.removeAt(widget.index);
+                    }
+                  },
+                )))
+      ]);
 
     return row;
   }
@@ -460,11 +402,7 @@ class _ItemTagsState extends State<ItemTags> {
 
   /// Single item selection
   void _singleItem(DataListInherited dataSetIn, DataList dataSet) {
-    dataSetIn.list
-        .where((tg) => tg != null)
-        .where((tg) => tg.active)
-        .where((tg2) => tg2 != dataSet)
-        .forEach((tg) => tg.active = false);
+    dataSetIn.list.where((tg) => tg != null).where((tg) => tg.active).where((tg2) => tg2 != dataSet).forEach((tg) => tg.active = false);
   }
 }
 
@@ -502,15 +440,7 @@ class ItemTagsIcon {
 
 /// ItemTag RemoveButton
 class ItemTagsRemoveButton {
-  ItemTagsRemoveButton(
-      {this.icon,
-      this.size,
-      this.backgroundColor,
-      this.color,
-      this.borderRadius,
-      this.padding,
-      this.margin,
-      this.onRemoved});
+  ItemTagsRemoveButton({this.icon, this.size, this.backgroundColor, this.color, this.borderRadius, this.padding, this.margin, this.onRemoved});
 
   final IconData icon;
   final double size;
